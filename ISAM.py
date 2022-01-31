@@ -1,30 +1,33 @@
 from math import log, ceil, floor
 
 print("DATI:")
-NR = int(input("Inserire il numero di record...........(NR): "))
-assert NR > 0, "NR deve essere maggiore di 0"
+try:
+    NR = int(input("Inserire il numero di record...........(NR): "))
+    assert NR > 0, "NR deve essere maggiore di 0"
 
-R = int(input("Inserire la dimensione di ogni record...(R): "))
-assert R > 0, "R deve essere maggiore di 0"
+    R = int(input("Inserire la dimensione di ogni record...(R): "))
+    assert R > 0, "R deve essere maggiore di 0"
 
-K = int(input("Inserire la dimensione della chiave.....(K): "))
-assert K > 0, "K deve essere maggiore di 0"
+    K = int(input("Inserire la dimensione della chiave.....(K): "))
+    assert K > 0, "K deve essere maggiore di 0"
 
-CB = int(input("Inserire la dimensione di ogni blocco..(CB): "))
-assert CB > 0, "CB deve essere maggiore di 0"
+    CB = int(input("Inserire la dimensione di ogni blocco..(CB): "))
+    assert CB > 0, "CB deve essere maggiore di 0"
 
-P = int(input("Inserire la dimensione dei puntatori....(P): "))
-assert P > 0, "P deve essere maggiore di 0"
+    P = int(input("Inserire la dimensione dei puntatori....(P): "))
+    assert P > 0, "P deve essere maggiore di 0"
 
-print("\nPERCENTUALE UTILIZZO BLOCCHI:")
-POF = int(input("Percentuale riempimento blocchi del file principale (inserici senza il simbolo di percentuale %): "))
-assert POF > 0 and POF <= 100, "Attenzione, la percentuale di riempimento dei blocchi del file principale deve essere compresa tra 1 e 100"
-if POF < 100: answPOF = int(input(f"I blocchi del FILE PRINCIPALE devono essere riempiti al piu'(0) o almeno(1) al {POF}%? (0/1): "))
+    print("\nPERCENTUALE UTILIZZO BLOCCHI:")
+    POF = int(input("Percentuale riempimento blocchi del file principale (inserici senza il simbolo di percentuale %): "))
+    assert POF > 0 and POF <= 100, "Attenzione, la percentuale di riempimento dei blocchi del file principale deve essere compresa tra 1 e 100"
+    if POF < 100: answPOF = int(input(f"I blocchi del FILE PRINCIPALE devono essere riempiti al piu'(0) o almeno(1) al {POF}%? (0/1): "))
 
-POI = int(input("Percentuale riempimento blocchi del file indice (inserici senza il simbolo di percentuale %): "))
-assert POI > 0 and POI <= 100, "Attenzione, la percentuale di riempimento dei blocchi del file indice deve essere compresa tra 1 e 100"
-if POI < 100: answPOI = int(input(f"I blocchi DEL FILE INDICE devono essere riempiti al piu'(0) o almeno(1) al {POI}%? (0/1): "))
-
+    POI = int(input("Percentuale riempimento blocchi del file indice (inserici senza il simbolo di percentuale %): "))
+    assert POI > 0 and POI <= 100, "Attenzione, la percentuale di riempimento dei blocchi del file indice deve essere compresa tra 1 e 100"
+    if POI < 100: answPOI = int(input(f"I blocchi DEL FILE INDICE devono essere riempiti al piu'(0) o almeno(1) al {POI}%? (0/1): "))
+except ValueError:
+    print("Inserire solo numeri!")
+    exit()
 
 # dimensione di un record indice
 RI = P + K
@@ -56,14 +59,18 @@ else: MI = floor(MI)
 # Numero di blocchi per file indice
 BI = ceil(BF / MI)
 
+# Numero totale di blocchi utilizzati da tutta la struttura
+BTOT = BF + BI
+
 # Calcolo del numero di accessi
 ACC = ceil(log(BI, 2)) + 1
 
 res = ("\nRISULTATI:\n"
-       f"Massimo numero di record per blocco del file principale:.....{M}\n"
-       f"Numero di blocchi necessari per il file principale:..........{BF}\n"
-       f"Massimo numero di record indice per blocco del file indice:..{MI}\n"
-       f"Numero di blocchi necessari per il file indice:..............{BI}\n"
-       f"Numero di accessi necessari:.................................{ACC}")
+       f"Massimo numero di record per blocco del file principale:......{M}\n"
+       f"Numero di blocchi necessari per il file principale:...........{BF}\n"
+       f"Massimo numero di record indice per blocco del file indice:...{MI}\n"
+       f"Numero di blocchi necessari per il file indice:...............{BI}\n"
+       f"Numero totale di blocchi per tutta la struttura:..............{BTOT}\n"
+       f"Numero di accessi necessari:..................................{ACC}")
 
 print(res)
